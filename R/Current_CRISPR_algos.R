@@ -9,7 +9,7 @@ if(!library(jacks, logical.return = T)){
   rjacks_zip <- paste(getwd(),'utils/JACKS-master/rjacks/jacks_0.1.0.tar.gz',sep='')
   install.packages(rjacks_zip, repos = NULL, type = "source")
   library(jacks)
-} else{library(plyr)}
+} else{library(jacks)}
 
 #' Current_CRISPR_algos
 #'
@@ -65,7 +65,7 @@ Current_CRISPR_algos <- function(algo_call, py_path=NULL, jacks_target_genes = N
       system(paste(py_path,'--version'))
 
       drugZ_dir <- list.files(path = paste(getwd(),'/utils/drugz',sep=''), pattern = 'drugz.py', recursive = T, full.names = T)
-      python_pipe <- paste('python', drugZ_dir, '-i', readcount_input_file,'-o',drugZ_output_file,'-f',drugZ_foldchange_file, '-c', control, '-x', treatmnet, sep=' ')
+      python_pipe <- paste('python', drugZ_dir, '-i', readcount_input_file,'-o',drugZ_output_file,'-f',drugZ_foldchange_file, '-c', drugZ_control, '-x', drugZ_treatmnet, sep=' ')
       cat('Running drugZ python script...\n')
       system(python_pipe, wait=T)
     } else {
@@ -73,6 +73,7 @@ Current_CRISPR_algos <- function(algo_call, py_path=NULL, jacks_target_genes = N
     }
     Sys.unsetenv("PATH")
     Sys.setenv(PATH = Org_PATH)
+    cat('\n')
   }
 
   if ((grep('BAGEL',algo_call,ignore.case = T))&&(length(grep('BAGEL',algo_call,ignore.case = T))>0)) {
@@ -104,6 +105,7 @@ Current_CRISPR_algos <- function(algo_call, py_path=NULL, jacks_target_genes = N
     }
     Sys.unsetenv("PATH")
     Sys.setenv(PATH = Org_PATH)
+    cat('\n')
   }
 
   if ((grep('JACKS',algo_call,ignore.case = T))&&(length(grep('JACKS',algo_call,ignore.case = T))>0)) {
@@ -132,10 +134,10 @@ Current_CRISPR_algos <- function(algo_call, py_path=NULL, jacks_target_genes = N
     cat('JACKS: Writing JACKS results SummarizedExperiment object to disk...\n')
     filename <- paste(jacks_saveDir,'/JACKS_Results.rds', sep='')
     saveRDS(result, file = filename)
-
+    cat('\n')
   }
 
-  if (!grepl('drugZ|BAGEL|JACKS',algo_call,ignore.case = T)) {
+  if (all(!grepl('drugZ|BAGEL|JACKS',algo_call,ignore.case = T))) {
     cat('You did not specify a correct algorithm call, algo_call only accepts either of the following: c("drugZ", "BAGEL", "JACKS")')
   }
 
