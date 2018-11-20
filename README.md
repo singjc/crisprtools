@@ -1,7 +1,7 @@
 # crisprtools
 
 crisprtools is a package to allow for the analysis of CRISPR Screens.
-It includes 3 algorithms to analyze CRISPR screens developed by other individuals (See [Authors](## Authors)):
+It includes 3 algorithms to analyze CRISPR screens developed by other individuals (See Authors):
 
 1. drugZ - was developed in the Traver Hart lab, by Gang Wang 
 
@@ -29,29 +29,29 @@ To run drugZ (python 3) and BAGEL (python 2) you will need to have python instal
 ```
 To install python, you can install python using Anaconda.
 
-..1. Download Anaconda python 3.x from: https://www.anaconda.com/download/#macos
-..2. Once installed, you can create separate envrionments from the main installation. 
-..3. In terminal type in (creates a separate python 3.x from main): conda create -n py3x python=3.x
-..4. In terminal type in (creates a python 2.7 environment): conda create -n py27 python=2.7
+	1. Download Anaconda python 3.x from: https://www.anaconda.com/download/#macos
+	2. Once installed, you can create separate envrionments from the main installation. 
+	3. In terminal type in (creates a separate python 3.x from main): conda create -n py3x python=3.x
+	4. In terminal type in (creates a python 2.7 environment): conda create -n py27 python=2.7
 ```
 
 ### Installing crisprtools
 
 ```
 You first will need to install devtools if you do not already have it
-..1. install.packages("devtools")
-..2. load library(devtools)
+	1. install.packages("devtools")
+	2. load library(devtools)
 
 To install crisprtools package
-..3. install_github("singjc/crisprtools")
+	3. install_github("singjc/crisprtools")
 ```
 
 ## Current Functions in crisprtools
 ```
 1. Current_CRISPR_algos
-..1. drugZ.py
-..2. BAGEL.py
-..3. rjacks.R
+	1. drugZ.py
+	2. BAGEL.py
+	3. rjacks.R
 2. rdrugZ.R (re-wrote drugZ into Rscript)
 3. Raw_Counts_PreProcessing (calls bhatt.coeff.R)
 4. algo_comparison_scatter_plot_single 
