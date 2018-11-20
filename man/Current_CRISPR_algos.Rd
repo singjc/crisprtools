@@ -4,12 +4,12 @@
 \alias{Current_CRISPR_algos}
 \title{Current_CRISPR_algos}
 \usage{
-Current_CRISPR_algos(algo_call, py_path = NULL,
-  jacks_target_genes = NULL, jacks_n_iter = 5,
-  jacks_reference_library = NA, ...)
+Current_CRISPR_algos(algo_call, ...)
 }
 \arguments{
 \item{algo_call}{Which algorithm to use, can take one or all. Accepted values c("drugZ", "BAGEL", "JACKS")}
+
+\item{...}{Other optional params to pass to either drugZ, BAGEL or JACKS}
 
 \item{py_path}{(optional) python path to use}
 
@@ -18,8 +18,6 @@ Current_CRISPR_algos(algo_call, py_path = NULL,
 \item{jacks_n_iter}{(Default = 5) An integer number of iterations of JACKS inference performed. Default 5.}
 
 \item{jacks_reference_library}{(Default = NA) Name of the gRNA library to be used in inference ("avana","gecko2","yusa_v1o", or the path to a local grna results file). If this is specified, gRNA efficacies are not estimated, which greatly speeds up the computation. Default NULL (recalculate gRNA efficacies).}
-
-\item{...}{Other optional params to pass to either drugZ, BAGEL or JACKS}
 }
 \value{
 Returns specfic results for either drugZ, BAGEL or JACKS

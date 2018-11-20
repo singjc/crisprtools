@@ -4,6 +4,7 @@ library(plyr)
 library(dplyr)
 library(stringr)
 library(reticulate)
+library(tictoc)
 
 if(!library(jacks, logical.return = T)){
   rjacks_zip <- paste(getwd(),'utils/JACKS-master/rjacks/jacks_0.1.0.tar.gz',sep='')
@@ -40,7 +41,36 @@ if(!library(jacks, logical.return = T)){
 #' @export
 #'
 #'
-Current_CRISPR_algos <- function(algo_call, py_path=NULL, jacks_target_genes = NULL, jacks_n_iter = 5, jacks_reference_library = NA, ...) {
+Current_CRISPR_algos <- function(algo_call, ...) {
+
+
+  logParams_ <- function(params){
+
+    tmp2 <- unlist(params)
+    tmp2 <- cbind.data.frame(names(tmp2),tmp2, stringsAsFactors = F)
+    cat('------- Arugments Used ------------------------------------------------\n')
+    apply(tmp2,1,function(x) cat('Argument:',x[1],' | Value:',x[2],'\n\n',sep=' '))
+    cat('-----------------------------------------------------------------------\n')
+  }
+
+  # Optional Arguments Check
+  params = list(...)
+  if (any(!grepl('py_path',names(params)))) {
+    py_path=NULL
+  }
+  if (any(!grepl('jacks_target_genes',names(params)))) {
+    jacks_target_genes=NULL
+  }
+  if (any(!grepl('jacks_n_iter',names(params)))) {
+    jacks_n_iter = 5
+  }
+  if (any(!grepl('jacks_reference_library',names(params)))) {
+    jacks_reference_library = NA
+  }
+
+  logParams_(params)
+
+  available_python <- py_discover_config()
 
   # Get original environment path
   Org_PATH <- Sys.getenv('PATH')
@@ -117,7 +147,9 @@ Current_CRISPR_algos <- function(algo_call, py_path=NULL, jacks_target_genes = N
                                       reference_sample=jacks_reference_sample)
 
     cat('JACKS: Inferring JACKS decomposition...\n')
+    tic('JACKS: Inference decompostion Done!!: ')
     result = infer_jacks(lfc, target_genes = jacks_target_genes, n_iter = jacks_n_iter, reference_library = jacks_reference_library)
+    toc()
 
     for (i in 1:result@colData@nrows) {
       condition <- result@colData@rownames[i]
