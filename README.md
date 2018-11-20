@@ -18,26 +18,39 @@ Will add more useful information soon...
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
+First, you need to have R and RStudio (latest version suggested) installed.
 
 ```
-Give examples
+1. Install R from: https://www.r-project.org
+2. Install RSTudio from: https://www.rstudio.com/products/rstudio/download/
+
+```
+
+
+To run drugZ (python 3) and BAGEL (python 2) you will need to have python installed
+```
+To install python, you can install python using Anaconda.
+1. Download Anaconda python 3.x from: https://www.anaconda.com/download/#macos
+2. Once installed, you can create separate envrionments from the main installation. 
+3. Open a terminal window, and type in (to create a separate python 3.x from main installation): conda create -n py3x python=3.x
+4. Open a terminal window, and type in (to create a python 2.7 environment): conda create -n py27 python=2.7
 ```
 
 ### Installing
 
-install.packages("devtools")
-library(devtools)
-install_github("singjc/crisprtools")
 
 Say what the step will be
 
 ```
-Give the example
+You first will need to install devtools if you do not already have it
+1. install.packages("devtools")
+2. load library(devtools)
+To install crisprtools package
+3. install_github("singjc/crisprtools")
 ```
 
 And repeat
