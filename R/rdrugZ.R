@@ -66,7 +66,7 @@ library(scales)
 #'
 #' @return Writes drugZ results to disk
 #'
-#' @author drugZ algorithm was developed in the Hart Lab \url{http://www.hart-lab.org}
+#' @author drugZ algorithm was developed in the Traver Hart Lab, by Gang Wang \url{http://www.hart-lab.org}
 #' @references Publication on drugZ can be found at: \url{https://www.biorxiv.org/content/biorxiv/early/2017/12/12/232736.full.pdf}
 #' @references Original Python source code can be found at: \url{https://github.com/hart-lab/drugz}
 #'

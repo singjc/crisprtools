@@ -47,7 +47,7 @@ Publication on drugZ can be found at: \url{https://www.biorxiv.org/content/biorx
 Original Python source code can be found at: \url{https://github.com/hart-lab/drugz}
 }
 \author{
-drugZ algorithm was developed in the Hart Lab \url{http://www.hart-lab.org}
+drugZ algorithm was developed in the Traver Hart Lab, by Gang Wang \url{http://www.hart-lab.org}
 
 Script conversion to R: Justin Sing \url{https://github.com/singjc}
 }

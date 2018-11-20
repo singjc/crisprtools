@@ -13,11 +13,11 @@ Current_CRISPR_algos(algo_call, py_path = NULL,
 
 \item{py_path}{(optional) python path to use}
 
-\item{jacks_target_genes}{A vector of gene names to run JACKS on if not all genes are required. Default NULL (all genes will be used).}
+\item{jacks_target_genes}{(Default = NULL) A vector of gene names to run JACKS on if not all genes are required. Default NULL (all genes will be used).}
 
-\item{jacks_n_iter}{An integer number of iterations of JACKS inference performed. Default 5.}
+\item{jacks_n_iter}{(Default = 5) An integer number of iterations of JACKS inference performed. Default 5.}
 
-\item{jacks_reference_library}{Name of the gRNA library to be used in inference ("avana","gecko2","yusa_v1o", or the path to a local grna results file). If this is specified, gRNA efficacies are not estimated, which greatly speeds up the computation. Default NULL (recalculate gRNA efficacies).}
+\item{jacks_reference_library}{(Default = NA) Name of the gRNA library to be used in inference ("avana","gecko2","yusa_v1o", or the path to a local grna results file). If this is specified, gRNA efficacies are not estimated, which greatly speeds up the computation. Default NULL (recalculate gRNA efficacies).}
 
 \item{...}{Other optional params to pass to either drugZ, BAGEL or JACKS}
 }
@@ -34,11 +34,11 @@ JACKS (<https://github.com/felicityallen/JACKS/tree/master/2018_paper_materials>
 of genes from one or many CRISPR screens taking into account largely on how well each guide performs. JACKS was developed in the Parts Group at Sanger Institute.
 }
 \author{
-drugZ \url{<https://github.com/hart-lab/drugz>}
+drugZ was developed in the Traver Hart lab, by Gang Wang \url{<https://github.com/hart-lab/drugz>} \url{https://www.biorxiv.org/content/early/2017/12/12/232736}
 
-BAGEL \url{<https://github.com/hart-lab/bagel>}
+BAGEL was developed in the Traver Hart lab, by Traver Hart \url{<https://github.com/hart-lab/bagel>} \url{https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-016-1015-8}
 
-JACKS \url{<https://github.com/felicityallen/JACKS/tree/master/2018_paper_materials>}
+JACKS was developed in the Leopold Parts lab, by Fellicity Allen \url{<https://github.com/felicityallen/JACKS/tree/master/2018_paper_materials>} \url{https://www.biorxiv.org/content/early/2018/04/12/285114}
 
-Justin Sing, \url{https://github.com/singjc}
+Justin Sing, I take no credit for the slgorithms drugZ, BAGEL and JACKS. I merely put this script together to allow for the analysis of drugZ, BAGEL and JACKS in one framework hub. \url{https://github.com/singjc}
 }

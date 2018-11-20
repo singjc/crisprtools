@@ -6,7 +6,7 @@ library(stringr)
 library(reticulate)
 
 if(!library(jacks, logical.return = T)){
-  rjacks_zip <- paste(getwd(),'src/JACKS-master/rjacks/jacks_0.1.0.tar.gz',sep='')
+  rjacks_zip <- paste(getwd(),'utils/JACKS-master/rjacks/jacks_0.1.0.tar.gz',sep='')
   install.packages(rjacks_zip, repos = NULL, type = "source")
   library(jacks)
 } else{library(plyr)}
@@ -24,18 +24,18 @@ if(!library(jacks, logical.return = T)){
 #'
 #' @param algo_call Which algorithm to use, can take one or all. Accepted values c("drugZ", "BAGEL", "JACKS")
 #' @param py_path (optional) python path to use
-#' @param jacks_target_genes A vector of gene names to run JACKS on if not all genes are required. Default NULL (all genes will be used).
-#' @param jacks_n_iter An integer number of iterations of JACKS inference performed. Default 5.
-#' @param jacks_reference_library Name of the gRNA library to be used in inference ("avana","gecko2","yusa_v1o", or the path to a local grna results file). If this is specified, gRNA efficacies are not estimated, which greatly speeds up the computation. Default NULL (recalculate gRNA efficacies).
+#' @param jacks_target_genes (Default = NULL) A vector of gene names to run JACKS on if not all genes are required. Default NULL (all genes will be used).
+#' @param jacks_n_iter (Default = 5) An integer number of iterations of JACKS inference performed. Default 5.
+#' @param jacks_reference_library (Default = NA) Name of the gRNA library to be used in inference ("avana","gecko2","yusa_v1o", or the path to a local grna results file). If this is specified, gRNA efficacies are not estimated, which greatly speeds up the computation. Default NULL (recalculate gRNA efficacies).
 #' @param ... Other optional params to pass to either drugZ, BAGEL or JACKS
 #'
 #' @return Returns specfic results for either drugZ, BAGEL or JACKS
 #'
-#' @author drugZ \url{<https://github.com/hart-lab/drugz>}
-#' @author BAGEL \url{<https://github.com/hart-lab/bagel>}
-#' @author JACKS \url{<https://github.com/felicityallen/JACKS/tree/master/2018_paper_materials>}
+#' @author drugZ was developed in the Traver Hart lab, by Gang Wang \url{<https://github.com/hart-lab/drugz>} \url{https://www.biorxiv.org/content/early/2017/12/12/232736}
+#' @author BAGEL was developed in the Traver Hart lab, by Traver Hart \url{<https://github.com/hart-lab/bagel>} \url{https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-016-1015-8}
+#' @author JACKS was developed in the Leopold Parts lab, by Fellicity Allen \url{<https://github.com/felicityallen/JACKS/tree/master/2018_paper_materials>} \url{https://www.biorxiv.org/content/early/2018/04/12/285114}
 #'
-#' @author Justin Sing, \url{https://github.com/singjc}
+#' @author Justin Sing, I take no credit for the slgorithms drugZ, BAGEL and JACKS. I merely put this script together to allow for the analysis of drugZ, BAGEL and JACKS in one framework hub. \url{https://github.com/singjc}
 #'
 #' @export
 #'
@@ -55,13 +55,16 @@ Current_CRISPR_algos <- function(algo_call, py_path=NULL, jacks_target_genes = N
   }
 
   if ((grep('drugZ',algo_call,ignore.case = T))&&(length(grep('drugZ',algo_call,ignore.case = T))>0)) {
-    if (length(py3)>0) {
+    if ((length(py3)>0) || (!is.null(py_path))) {
+      if ((length(py3)>0)) {
+        py_path <- py3
+      }
       # Set Python Interpreter
-      Sys.setenv(PATH = paste(py3, Sys.getenv("PATH"), sep=":"))
+      Sys.setenv(PATH = paste(py_path, Sys.getenv("PATH"), sep=":"))
       cat('Using python version:\n')
-      system(paste(py3,'--version'))
+      system(paste(py_path,'--version'))
 
-      drugZ_dir <- list.files(path = paste(getwd(),'/src/drugz',sep=''), pattern = 'drugz.py', recursive = T, full.names = T)
+      drugZ_dir <- list.files(path = paste(getwd(),'/utils/drugz',sep=''), pattern = 'drugz.py', recursive = T, full.names = T)
       python_pipe <- paste('python', drugZ_dir, '-i', readcount_input_file,'-o',drugZ_output_file,'-f',drugZ_foldchange_file, '-c', control, '-x', treatmnet, sep=' ')
       cat('Running drugZ python script...\n')
       system(python_pipe, wait=T)
@@ -74,13 +77,16 @@ Current_CRISPR_algos <- function(algo_call, py_path=NULL, jacks_target_genes = N
 
   if ((grep('BAGEL',algo_call,ignore.case = T))&&(length(grep('BAGEL',algo_call,ignore.case = T))>0)) {
 
-    if (length(py2)>0) {
+    if ((length(py2)>0) || (!is.null(py_path))) {
+      if ((length(py2)>0)) {
+        py_path <- py2
+      }
       # Set Python Interpreter
-      Sys.setenv(PATH = paste(py2, Sys.getenv("PATH"), sep=":"))
+      Sys.setenv(PATH = paste(py_path, Sys.getenv("PATH"), sep=":"))
       cat('Using python version:\n')
-      system(paste(py2,'--version'))
+      system(paste(py_path,'--version'))
 
-      BAGEL_dir <-  list.files(path = paste(getwd(),'/src/bagel-master',sep=''), pattern = 'BAGEL.py', recursive = T, full.names = T)
+      BAGEL_dir <-  list.files(path = paste(getwd(),'/utils/bagel-master',sep=''), pattern = 'BAGEL.py', recursive = T, full.names = T)
       cat('Running BAGEL python script...\n')
       cat('--- Calculating foldchange...\n')
       # Run Fold Change
@@ -88,8 +94,8 @@ Current_CRISPR_algos <- function(algo_call, py_path=NULL, jacks_target_genes = N
       system(python_pipe, wait=T)
       cat('--- Calculating bayes factor...\n')
       # Bayes Factor
-      reference_nonessentials <- list.files(path = paste(getwd(),'/src/bagel-master',sep=''), pattern = '^nonessential.txt', recursive = T, full.names = T)
-      reference_essentials <- list.files(path = paste(getwd(),'/src/bagel-master',sep=''), pattern = '^essentials.txt', recursive = T, full.names = T)
+      reference_nonessentials <- list.files(path = paste(getwd(),'/utils/bagel-master',sep=''), pattern = '^nonessential.txt', recursive = T, full.names = T)
+      reference_essentials <- list.files(path = paste(getwd(),'/utils/bagel-master',sep=''), pattern = '^essentials.txt', recursive = T, full.names = T)
       python_pipe <- paste('python',BAGEL_dir,'bf -i',paste(foldchange_out_file,'.foldchange.txt',sep=''),'-o',bf_out_file,'-e',reference_essentials,'-n',reference_nonessentials,'-c',bf_columns,sep=' ')
       system(python_pipe, wait=T)
 
