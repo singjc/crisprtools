@@ -1,0 +1,31 @@
+Package: crisprtools
+Type: Package
+Title: A framework to perform different analyses on CRISPR Screen data
+Version: 0.1.0
+Author: person(“Justin”, “Sing”, email = “justin.sing.dev@gmail.com”, role = “cre”)
+Maintainer: Justin Sing <justin.sing.dev@gmail.com>
+Depends: R(>= 3.4.1)
+Imports:
+	data.table,
+	dplyr,
+	plyr,
+	Matrix,
+	scales,
+	ggplot2,
+	ggrepel,
+	ggpmisc,
+	grid,
+	gridExtra,
+	tictoc,
+	reticulate,
+	parallel
+Description: This package contains tools to be used for analyzing CRISPR Screen data. It contains packages and source code from other developers: drugZ <https://github.com/hart-lab/drugz> and BAGEL <https://github.com/hart-lab/bagel> were developed in the Hart Lab. JACKS <https://github.com/felicityallen/JACKS/tree/master/2018_paper_materials> was  developed in the Parts Group at Sanger Institute. Bhattacharyya Coefficient calculation script was written by Thomas Guillerme <https://github.com/TGuillerme>
+URL: https://github.com/singjc
+License: CCO
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.1.1
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr

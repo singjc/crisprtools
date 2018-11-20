@@ -1,0 +1,24 @@
+---
+title: "crisprtools README"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+crisprtools is a package to allow for the analysis of CRISPR Screens.
+It includes 3 algorithms to analyze CRISPR screens developed by other individuals:
+
+1. drugZ - was developed in the Traver Hart lab, by Gang Wang 
+(GitHub Source Code: https://github.com/hart-lab/drugz, Publication: https://www.biorxiv.org/content/early/2017/12/12/232736)
+
+2. BAGEL - was developed in the Traver Hart lab, by Traver Hart 
+(GitHub Source Code: https://github.com/hart-lab/bagel, Publication: https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-016-1015-8)
+
+3. JACKS - was developed in the Leopold Parts lab, by Fellicity Allen 
+(GitHub Source Code: https://github.com/felicityallen/JACKS/tree/master/2018_paper_materials, Publication: https://www.biorxiv.org/content/early/2018/04/12/285114)
+
+It also includes an algorithm to filter out sgRNA's based on their consistency between replicates and conditions. It uses the Bhattacharyya Coefficient to calculate the overlap between two distributions of replicate samples. The bhatt.coeff.R script was written by Thomas Guillerme (GitHub: https://github.com/TGuillerme/Total_Evidence_Method-Missing_data/blob/master/Functions/TreeComparisons/bhatt.coef.R)
+
+Will add more useful information soon...
