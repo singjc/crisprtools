@@ -69,9 +69,10 @@ To install crisprtools package
 You can run all three algorithms in one call given you provide all the input arguments.
 In this case, algo = c('drugZ', 'BAGEL', 'JACKS')
 
-First and foremost, load crisprtools library
-
+### First and foremost, load crisprtools library
+```
 library(crisprtools)
+```
 
 #### Running python drugZ algorithm
 
