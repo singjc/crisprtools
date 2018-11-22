@@ -130,8 +130,8 @@ repmapfile <- '/usr/bob/CRISPR_Screen/data/Screen1/read-counts/repmap.txt'
 # an example repmap file should look something as follows in a .txt tab-deliminated file.
 #
 # Replicate 	Sample
-# NT_repA		CTRL
-# NT_repB		CTRL
+# NT_repA	CTRL
+# NT_repB	CTRL
 # Drug1_repA	Drug1
 # Drug1_repB	Drug1
 # Drug2_repA	Drug2
