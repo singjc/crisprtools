@@ -12,7 +12,7 @@ The 3 algorithms it includes to analyze CRISPR screens were developed by other i
 
 This package only utilizes the R JACKS version.
 
-The drugZ algorithm was also converted to RScript and can be called through rdrugZ with the same parameters as the python implementation. However, the pythong version is still also accesible through this package.
+The drugZ algorithm was also converted to RScript and can be called through rdrugZ with the same parameters as the python implementation. However, the python version is still also accesible through this package.
 
 It also includes an algorithm to filter out sgRNA's based on their consistency between replicates and conditions. It uses the Bhattacharyya Coefficient to calculate the overlap between two distributions of replicate samples. The bhatt.coeff.R script was written by Thomas Guillerme.
 
