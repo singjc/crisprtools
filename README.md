@@ -69,6 +69,10 @@ To install crisprtools package
 You can run all three algorithms in one call given you provide all the input arguments.
 In this case, algo = c('drugZ', 'BAGEL', 'JACKS')
 
+First and foremost, load crisprtools library
+
+library(crisprtools)
+
 #### Running python drugZ algorithm
 
 There is also an implemntation of the drugZ algorithm in R, callable function rdrugZ(), requires the same arguments as python version.
