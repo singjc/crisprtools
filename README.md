@@ -83,7 +83,12 @@ drugZ_control = 'NT_repA,NT_repB'
 drugZ_treatmnet = 'DRUG_repA,DRUG_repB'
 
 # Note: arguments must be named, due to arguments being positional, you need to specify argument value correspondence
-Current_CRISPR_algos(algo_call='drugZ', readcount_input_file=readcount_input_file, drugZ_output_file=drugZ_output_file, drugZ_foldchange_file=drugZ_foldchange_file, drugZ_control,drugZ_treatmnet=drugZ_control,drugZ_treatmnet)
+Current_CRISPR_algos(algo_call='drugZ', 
+                     readcount_input_file=readcount_input_file, 
+                     drugZ_output_file=drugZ_output_file, 
+                     drugZ_foldchange_file=drugZ_foldchange_file, 
+                     drugZ_control=drugZ_control,
+                     drugZ_treatmnet=drugZ_treatmnet)
 ```
 
 #### Running python BAGEL algorithm
@@ -104,7 +109,12 @@ bf_out_file = paste(dirname(readcount_input_file),'/TEST_bf.txt',sep='')
 # String array of which column to include in BAGEL analysis
 bf_columns = '1,2'
 
-Current_CRISPR_algos(algo_call='BAGEL', readcount_input_file, bagel_foldchange_out_file=bagel_foldchange_out_file, T0_control_col=T0_control_col, bf_out_file=bf_out_file, bf_columns=bf_columns)
+Current_CRISPR_algos(algo_call='BAGEL', 
+                     readcount_input_file=readcount_input_file, 
+                     bagel_foldchange_out_file=bagel_foldchange_out_file, 
+                     T0_control_col=T0_control_col, 
+                     bf_out_file=bf_out_file, 
+                     bf_columns=bf_columns)
 ```
 
 #### Running R JACKS algorithm
