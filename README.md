@@ -1,13 +1,18 @@
 # crisprtools
 
-crisprtools is a package to allow for the analysis of CRISPR Screens.
-It includes 3 algorithms to analyze CRISPR screens developed by other individuals (See Authors):
+crisprtools is a package that incorporates/houses 3 algorithms to analyze CRISPR Screens. The purpose of this package, is to make these 3 algorithms accesible in one place to allow anyone to use all 3 algorithms if they wish, through the mediation of R.
 
-1. drugZ - was developed in the Traver Hart lab, by Gang Wang 
+The 3 algorithms it includes to analyze CRISPR screens were developed by other individuals (See Authors):
 
-2. BAGEL - was developed in the Traver Hart lab, by Traver Hart 
+1. drugZ (written in python3) - was developed in the Traver Hart lab, by Gang Wang 
 
-3. JACKS - was developed in the Leopold Parts lab, by Fellicity Allen 
+2. BAGEL (written in python2) - was developed in the Traver Hart lab, by Traver Hart 
+
+3. JACKS (written in python and R) - was developed in the Leopold Parts lab, by Fellicity Allen 
+
+This package only utilizes the R JACKS version.
+
+The drugZ algorithm was also converted to RScript and can be called through rdrugZ with the same parameters as the python implementation. However, the pythong version is still also accesible through this package.
 
 It also includes an algorithm to filter out sgRNA's based on their consistency between replicates and conditions. It uses the Bhattacharyya Coefficient to calculate the overlap between two distributions of replicate samples. The bhatt.coeff.R script was written by Thomas Guillerme.
 
