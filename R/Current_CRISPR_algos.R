@@ -25,10 +25,28 @@ if(!library(jacks, logical.return = T)){
 #'
 #' @param algo_call Which algorithm to use, can take one or all. Accepted values c("drugZ", "BAGEL", "JACKS")
 #' @param py_path (optional) python path to use
+#' @param readcount_input_file Full path anf filename to read-counts file
+#' @param drugZ_output_file Full path and file name to save drugZ output file with extension. i.e. /usr/bob/drugZ_Result.txt
+#' @param drugZ_foldchange_file Full path and file name to save drugZ foldchange file with extension. i.e. /usr/bob/drugZ-foldchange_Result.txt
+#' @param drugZ_control String column names denoting which columns are controls. i.e. c("NT_repA", "NT_repB")
+#' @param drugZ_treatmnet String column names denoting which columns are treatments. i.e. c("DRUG_repA", "DRUG_repB")
+#' @param bagel_foldchange_out_file Full path and file name to save BAGEL foldchange file, without extension. i.e. no ".txt" at the end, with extension. i.e. /usr/bob/BAGEL_foldchange
+#' @param T0_control_col Numeric value denoting T0 control column
+#' @param bf_out_file Full path and file name to save BAGEL output file with extension. i.e. /usr/bob/BAGEL_Result.txt
+#' @param bf_columns string array denoting which columns to include in BAGEL test. i.e. '1,2,3,4'
+#' @param repmapfile Full path and filename to mapping file, annotating replicates and samples. See more read_counts_from_spec_files() documentation from JACKS.
+#' @param jacks_replicate_col String value of column header in repmap mapping file denoting replicates
+#' @param jacks_sample_col String value of column header in repmap mapping file denoting samples
+#' @param jacks_grna_col String value of column header in read-counts file denoting sgRNA column
+#' @param jacks_gene_col String value of column header in read-counts file denoting Gene column
+#' @param jacks_count_prior (default=32)
+#' @param jacks_normalization (default='median')
+#' @param jacks_window (default=800)
+#' @param jacks_reference_sample
 #' @param jacks_target_genes (Default = NULL) A vector of gene names to run JACKS on if not all genes are required. Default NULL (all genes will be used).
 #' @param jacks_n_iter (Default = 5) An integer number of iterations of JACKS inference performed. Default 5.
 #' @param jacks_reference_library (Default = NA) Name of the gRNA library to be used in inference ("avana","gecko2","yusa_v1o", or the path to a local grna results file). If this is specified, gRNA efficacies are not estimated, which greatly speeds up the computation. Default NULL (recalculate gRNA efficacies).
-#' @param ... Other optional params to pass to either drugZ, BAGEL or JACKS
+#' @param jacks_saveDir Where to save JACKS_result
 #'
 #' @return Returns specfic results for either drugZ, BAGEL or JACKS
 #'
@@ -41,7 +59,15 @@ if(!library(jacks, logical.return = T)){
 #' @export
 #'
 #'
-Current_CRISPR_algos <- function(algo_call, ...) {
+Current_CRISPR_algos <- function(algo_call,
+                                 py_path=NULL,
+                                 readcount_input_file,
+                                 drugZ_output_file, drugZ_foldchange_file, drugZ_control, drugZ_treatmnet,
+                                 bagel_foldchange_out_file, T0_control_col, bf_out_file, bf_columns,
+                                 repmapfile, jacks_replicate_col, jacks_sample_col, jacks_grna_col, jacks_gene_col,
+                                 jacks_count_prior=32, jacks_normalization='median', jacks_window=800, jacks_reference_sample,
+                                 jacks_target_genes=NULL, jacks_n_iter = 5, jacks_reference_library = NA, jacks_saveDir
+                                 ) {
 
 
   logParams_ <- function(params){
@@ -54,21 +80,22 @@ Current_CRISPR_algos <- function(algo_call, ...) {
   }
 
   # Optional Arguments Check
-  params = list(...)
-  if (any(!grepl('py_path',names(params)))) {
-    py_path=NULL
-  }
-  if (any(!grepl('jacks_target_genes',names(params)))) {
-    jacks_target_genes=NULL
-  }
-  if (any(!grepl('jacks_n_iter',names(params)))) {
-    jacks_n_iter = 5
-  }
-  if (any(!grepl('jacks_reference_library',names(params)))) {
-    jacks_reference_library = NA
-  }
+  # params = list(...)
+  # if (any(!grepl('py_path',names(params)))) {
+  #   py_path=NULL
+  # }
+  # if (any(!grepl('jacks_target_genes',names(params)))) {
+  #   jacks_target_genes=NULL
+  # }
+  # if (any(!grepl('jacks_n_iter',names(params)))) {
+  #   jacks_n_iter = 5
+  # }
+  # if (any(!grepl('jacks_reference_library',names(params)))) {
+  #   jacks_reference_library = NA
+  # }
 
-  logParams_(params)
+  # logParams_(params)
+
 
   available_python <- py_discover_config()
 
@@ -120,14 +147,17 @@ Current_CRISPR_algos <- function(algo_call, ...) {
       BAGEL_dir <-  list.files(path = paste(getwd(),'/utils/bagel-master',sep=''), pattern = 'BAGEL.py', recursive = T, full.names = T)
       cat('Running BAGEL python script...\n')
       cat('--- Calculating foldchange...\n')
+
+      cat('--- Using', colnames(fread(readcount_input_file))[T0_control_col+2], 'as T0 control...\n',sep=' ')
+
       # Run Fold Change
-      python_pipe <- paste('python',BAGEL_dir,'fc -i',readcount_input_file,'-o',foldchange_out_file,'-c',T0_control_col,sep=' ')
+      python_pipe <- paste('python',BAGEL_dir,'fc -i',readcount_input_file,'-o',bagel_foldchange_out_file,'-c',T0_control_col,sep=' ')
       system(python_pipe, wait=T)
       cat('--- Calculating bayes factor...\n')
       # Bayes Factor
       reference_nonessentials <- list.files(path = paste(getwd(),'/utils/bagel-master',sep=''), pattern = '^nonessential.txt', recursive = T, full.names = T)
       reference_essentials <- list.files(path = paste(getwd(),'/utils/bagel-master',sep=''), pattern = '^essentials.txt', recursive = T, full.names = T)
-      python_pipe <- paste('python',BAGEL_dir,'bf -i',paste(foldchange_out_file,'.foldchange.txt',sep=''),'-o',bf_out_file,'-e',reference_essentials,'-n',reference_nonessentials,'-c',bf_columns,sep=' ')
+      python_pipe <- paste('python',BAGEL_dir,'bf -i',paste(bagel_foldchange_out_file,'.foldchange.txt',sep=''),'-o',bf_out_file,'-e',reference_essentials,'-n',reference_nonessentials,'-c',bf_columns,sep=' ')
       system(python_pipe, wait=T)
 
     } else {

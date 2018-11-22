@@ -4,20 +4,61 @@
 \alias{Current_CRISPR_algos}
 \title{Current_CRISPR_algos}
 \usage{
-Current_CRISPR_algos(algo_call, ...)
+Current_CRISPR_algos(algo_call, py_path = NULL, readcount_input_file,
+  drugZ_output_file, drugZ_foldchange_file, drugZ_control, drugZ_treatmnet,
+  bagel_foldchange_out_file, T0_control_col, bf_out_file, bf_columns,
+  repmapfile, jacks_replicate_col, jacks_sample_col, jacks_grna_col,
+  jacks_gene_col, jacks_count_prior = 32,
+  jacks_normalization = "median", jacks_window = 800,
+  jacks_reference_sample, jacks_target_genes = NULL, jacks_n_iter = 5,
+  jacks_reference_library = NA, jacks_saveDir)
 }
 \arguments{
 \item{algo_call}{Which algorithm to use, can take one or all. Accepted values c("drugZ", "BAGEL", "JACKS")}
 
-\item{...}{Other optional params to pass to either drugZ, BAGEL or JACKS}
-
 \item{py_path}{(optional) python path to use}
+
+\item{readcount_input_file}{Full path anf filename to read-counts file}
+
+\item{drugZ_output_file}{Full path and file name to save drugZ output file with extension. i.e. /usr/bob/drugZ_Result.txt}
+
+\item{drugZ_foldchange_file}{Full path and file name to save drugZ foldchange file with extension. i.e. /usr/bob/drugZ-foldchange_Result.txt}
+
+\item{drugZ_control}{String column names denoting which columns are controls. i.e. c("NT_repA", "NT_repB")}
+
+\item{drugZ_treatmnet}{String column names denoting which columns are treatments. i.e. c("DRUG_repA", "DRUG_repB")}
+
+\item{bagel_foldchange_out_file}{Full path and file name to save BAGEL foldchange file, without extension. i.e. no ".txt" at the end, with extension. i.e. /usr/bob/BAGEL_foldchange}
+
+\item{T0_control_col}{Numeric value denoting T0 control column}
+
+\item{bf_out_file}{Full path and file name to save BAGEL output file with extension. i.e. /usr/bob/BAGEL_Result.txt}
+
+\item{bf_columns}{string array denoting which columns to include in BAGEL test. i.e. '1,2,3,4'}
+
+\item{repmapfile}{Full path and filename to mapping file, annotating replicates and samples. See more read_counts_from_spec_files() documentation from JACKS.}
+
+\item{jacks_replicate_col}{String value of column header in repmap mapping file denoting replicates}
+
+\item{jacks_sample_col}{String value of column header in repmap mapping file denoting samples}
+
+\item{jacks_grna_col}{String value of column header in read-counts file denoting sgRNA column}
+
+\item{jacks_gene_col}{String value of column header in read-counts file denoting Gene column}
+
+\item{jacks_count_prior}{(default=32)}
+
+\item{jacks_normalization}{(default='median')}
+
+\item{jacks_window}{(default=800)}
 
 \item{jacks_target_genes}{(Default = NULL) A vector of gene names to run JACKS on if not all genes are required. Default NULL (all genes will be used).}
 
 \item{jacks_n_iter}{(Default = 5) An integer number of iterations of JACKS inference performed. Default 5.}
 
 \item{jacks_reference_library}{(Default = NA) Name of the gRNA library to be used in inference ("avana","gecko2","yusa_v1o", or the path to a local grna results file). If this is specified, gRNA efficacies are not estimated, which greatly speeds up the computation. Default NULL (recalculate gRNA efficacies).}
+
+\item{jacks_saveDir}{Where to save JACKS_result}
 }
 \value{
 Returns specfic results for either drugZ, BAGEL or JACKS
